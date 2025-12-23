@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20251223171750_InitialCreate")]
+    [Migration("20251223173217_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -209,16 +209,11 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uuid");
-
                     b.HasKey("UserRoleId");
 
                     b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.HasIndex("UserId", "RoleId")
                         .IsUnique();
@@ -257,14 +252,10 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("AuthService.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("AuthService.Domain.Entities.User", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("Role");
 

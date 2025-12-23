@@ -27,7 +27,7 @@ namespace AuthService.Infrastructure.Persistence.Configurations
             builder.HasIndex(ur => ur.RoleId);
 
             builder.HasOne(ur => ur.User)
-                .WithMany()
+                .WithMany(u => u.UserRoles)
                 .HasForeignKey(ur => ur.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

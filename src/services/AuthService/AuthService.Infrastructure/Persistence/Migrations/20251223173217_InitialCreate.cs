@@ -96,8 +96,7 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                     UserRoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AssignedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    AssignedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -114,11 +113,6 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -168,11 +162,6 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                 table: "UserRoles",
                 columns: new[] { "UserId", "RoleId" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId1",
-                table: "UserRoles",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
