@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AuthService.Domain.Entities
+{
+    public class RefreshToken
+    {
+        public Guid RefreshTokenId { get; set; }
+        public Guid UserId { get; set; }
+        public string TokenHash {  get; set; } = default!;
+        public DateTime ExpiresAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsRevoked { get; set; }
+        public User User { get; set; } = default!;
+    }
+}

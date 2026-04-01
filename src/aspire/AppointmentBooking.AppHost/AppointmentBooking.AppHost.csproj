@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>1bd39d23-dfda-49e8-976b-e5a6dfa6e03d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\services\APIGateway\APIGateway.API\APIGateway.API.csproj" />
+    <ProjectReference Include="..\..\services\AuthService\AuthService.API\AuthService.API.csproj" />
+    <ProjectReference Include="..\..\services\BookingService\BookingService.API\BookingService.API.csproj" />
+    <ProjectReference Include="..\..\services\CalendarService\CalendarService.API\CalendarService.API.csproj" />
+    <ProjectReference Include="..\..\services\NotificationService\NotificationService.API\NotificationService.API.csproj" />
+    <ProjectReference Include="..\..\services\PaymentService\PaymentService.API\PaymentService.API.csproj" />
+  </ItemGroup>
+
+</Project>

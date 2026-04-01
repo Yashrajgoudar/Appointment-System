@@ -1,0 +1,60 @@
+services:
+
+  # ---- Infrastructure ----
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ap-postgres
+    environment:
+      POSTGRES_USER: ap_user
+      POSTGRES_PASSWORD: ap_dev_pass
+      POSTGRES_DB: appointment_platform
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ap_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: ap-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---- Services ----
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: src/services/AuthService/AuthService.API/Dockerfile
+    container_name: ap-auth
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=appointment_auth;Username=ap_user;Password=ap_dev_pass;Include Error Detail=true
+      - Jwt__SecretKey=your-super-secret-key-change-this-in-production-min-32-chars
+      - Jwt__Issuer=AppointmentPlatform
+      - Jwt__Audience=AppointmentPlatform
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  postgres_data:
+  redis_data:
